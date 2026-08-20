@@ -68,23 +68,6 @@ function prestige(L) {
     }
     //L = 0: ...
     var G = prestige_gain(L)
-    if (G.gte(1)) {
-        if (player.prestige_currency.length <= L) { player.prestige_currency[L] = G }
-        else { player.prestige_currency[L] = player.prestige_currency[L].add(G) }
-        player.basic_upgrades = [new Decimal(0), new Decimal(0), new Decimal(0)]
-        player.points = new Decimal(0)
-        if (L >= 1) {
-            for (var i = 0; i < L; i++) {
-                player.prestige_currency[i] = new Decimal(0)
-            }
-            for (var i in player.upgs) {
-                var key = i.split("/")
-                if (Math.max(key[0], key[1]) <= L) {
-                    player.upgs[i] = new Decimal(0)
-                }
-            }
-        }
-    }
 }
 
 const mysterious_constant_that_nobody_shall_understand_its_meaning = (Math.log10(2) * 1024 / 25)**0.5
@@ -140,7 +123,11 @@ function update(dt) {
         player.basic_upgrades[1] = player.points.div(100).add(1).log(1.25)
         player.basic_upgrades[2] = player.points.div(50).add(1).log(2).add(1).log(1.1).min(76)
     }
-    player.prestige_currency[i] = player.prestige_currency[i].add(prestige_gain(i).times(dt/1000))
+    if (player.unlocked_layers >= 1) {
+        for (var i = 0; i <= player.unlocked_layers; i++){
+            player.prestige_currency[i] = player.prestige_currency[i].add(prestige_gain(i).times(dt/1000))
+        }
+    }
 
     player.score = player.score.add(sps().times(dt).div(1000))
 
