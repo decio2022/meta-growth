@@ -141,8 +141,8 @@ function update(dt) {
         player.basic_upgrades[2] = player.points.div(50).add(1).log(2).add(1).log(1.1).min(76)
     }
 
-    if (player.unlocked_layers >= 3) {
-        for (var i = 0; i <= player.unlocked_layers - 3; i++){
+    if (player.unlocked_layers >= 1) {
+        for (var i = 0; i <= player.unlocked_layers; i++){
             player.prestige_currency[i] = player.prestige_currency[i].add(prestige_gain(i).times(dt/1000))
         }
     }
