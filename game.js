@@ -68,6 +68,10 @@ function prestige(L) {
     }
     //L = 0: ...
     var G = prestige_gain(L)
+    if (G.gte(1)) {
+        if (player.prestige_currency.length <= L) { player.prestige_currency[L] = G }
+        else { player.prestige_currency[L] = player.prestige_currency[L].add(G) }
+    }
 }
 
 const mysterious_constant_that_nobody_shall_understand_its_meaning = (Math.log10(2) * 1024 / 25)**0.5
