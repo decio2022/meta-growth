@@ -129,11 +129,11 @@ function gen_all_upgs(L) {
     var req = []
     for (var i = 0; i <= L; i++){
         req = req.concat(`${i}/${L}/0`)
-        req = req.concat(`${i}/${L}/1`)
+        req = req.concat(`${i}/${L}/0`)
     }
     for (var i = 0; i <= L-1; i++) {
         req = req.concat(`${L}/${i}/0`)
-        req = req.concat(`${L}/${i}/1`)
+        req = req.concat(`${L}/${i}/0`)
     }
     for (var i in req) {
         document.getElementById("pupg").innerHTML = document.getElementById("pupg").innerHTML+gen_upg_box(req[i]) 
