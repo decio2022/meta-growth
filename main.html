@@ -9,6 +9,7 @@
     <script src="eternity.js"></script>
     <script src="format.js"></script>
     <script src="upgrade.js"></script>
+    <script src="roll.js"></script>
     <script src="save.js"></script>
     <script src="game.js"></script>
     <script src="automation.js"></script>
@@ -145,12 +146,14 @@
         </div>
         <div id="extra-tab" style="display: none; text-align: center;">
             Your score is <span style="font-size: 150%">{{format(player.score,3)}}</span><br>
-            <small>{{format(sps(),5)}}/s</small>
+            <small>{{format(sps(),5)}}/s ({{format_time(sps().pow(-1).times(10**player.page))}} for {{format(10**player.page)}} score)</small><br>
+            <button onclick="roll(player.page)">Use {{format(10**player.page)}} Score to roll a L{{player.page+1}} boost!<br><small>Causes an L{{player.page+2}} reset</small></button>
+            <button style="flex: 1" onclick="player.page = Math.max(0,player.page-1);gen_all_upgs(player.page)">&larr;</button>
+            <button style="flex: 1"
+                onclick="player.page = Math.min(player.prestige_currency.length,player.page+1);gen_all_upgs(player.page)">&rarr;</button>
             <hr>
-            ^{{format(sp_boost(),6)}} prestige gain<br>
-            Points gain *(product of all prestige currencies)<sup>{{format(sp_boost_2(),6)}}</sup> (unlocks at 10,000 Score)<br>
-            *{{format(sp_boost_3(),3)}} score gain (unlocks at 100,000 Score)<br>
-            
+            <u>Current boosts</u>
+            <br><span id="display-boost"></span>
         </div>
     </div>
 </html>

@@ -15,7 +15,8 @@ function initPlayer() {
         automated: [],
 
         total_points: new Decimal(0),
-        score: new Decimal(0)
+        score: new Decimal(0),
+        extra_boosts: []
     }
 }
 
@@ -25,9 +26,9 @@ NAME = "meta-growth" //place you want to direct your local storage thing
 
 player = initPlayer()
 
-const player_vars_d = ["points","automatons","score"]
+const player_vars_d = ["points","automatons","score", "total_points"]
 const player_vars_l = ["basic_upgrades", "prestige_currency", "upgs"]
-const player_vars_str = ["unlocked_layers", "page", "autobuy_basic","automated"]
+const player_vars_str = ["unlocked_layers", "page", "autobuy_basic","automated","extra_boosts"]
 
 function detectNaN() {
     for (var i in player_vars_d) {

@@ -36,7 +36,6 @@ function EC_upg_cost(id) {
     //a-b <=0 | a-b decrease higher cost (higher layers take more to unlock)
     var t = Math.abs(J[0] - J[1])
     var E = new Decimal(2)
-    var B = new Decimal(1)
     if (J[0] >= J[1]) {
         var C = new Decimal(t).pow_base(2).pow_base(10)
         //10, 1e4, 1e16, 1e64, ...
@@ -59,7 +58,15 @@ function upg_cost(id, bought) {
     var E = G[0]
     var C = G[1]
     var bought = new Decimal(bought)
-    return bought.pow(E).pow_base(C.root(5)).times(C) //C.root(10) is probably one of the choices ever
+    var K = bought.pow(E).pow_base(C.root(5)).times(C) //C.root(10) is probably one of the choices ever
+    var J = id.split("/");
+    var t = Math.max(J[0], J[1])
+    if (player.extra_boosts.length > Number(t)-1) {
+        if (player.extra_boosts[Number(t)-1][0] == 2) {
+            K = K.root(get_boost_mag(player.extra_boosts[Number(t)-1]))
+        }
+    }
+    return K
 }
 
 function pupg(P, max = (document.getElementById("buy_text").innerHTML == "Max")) {
@@ -87,7 +94,13 @@ function pupg(P, max = (document.getElementById("buy_text").innerHTML == "Max"))
             var Cr = P.split("/"); Cr = Math.max(Cr[0], Cr[1]);
             var I = player.prestige_currency[Cr - 1]
             //SIX VARIABLES
-            player.upgs[P] = I.div(C).add(1).log(B).root(E).ceil()
+            var K = new Decimal(1)
+            if (player.extra_boosts.length > Number(Cr) - 1) {
+                if (player.extra_boosts[Number(Cr) - 1][0] == 2) {
+                    K = (get_boost_mag(player.extra_boosts[Cr - 1]))
+                }
+            }
+            player.upgs[P] = I.pow(K).div(C).add(1).log(B).root(E).ceil()
             player.prestige_currency[Cr - 1] = I.sub(upg_cost(P, player.upgs[P].sub(1))).max(1)
         }
     }
