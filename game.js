@@ -147,9 +147,6 @@ function sps() {
     for (var i in player.prestige_currency) {
         S = S.times(player.prestige_currency[i].add(1).log10().add(1).log10().add(1))
     }
-    if (player.score.gte(1e5)) {
-        S = S.times(sp_boost_3())
-    }
     return S.sub(1).div(1000)
 }
 
